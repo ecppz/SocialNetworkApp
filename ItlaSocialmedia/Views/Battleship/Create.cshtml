@@ -1,0 +1,193 @@
+﻿@model List<UserViewModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_LayoutUser";
+}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7">
+
+            @if (ViewBag.Message != null)
+            {
+                if (ViewBag.Message is string)
+                {
+                    <div class="alert alert-primary alert-dismissible fade show shadow-sm"
+                         role="alert">
+
+                        <div class="text-center">
+                            @Html.Raw(ViewBag.Message.Replace("\n", "<br/>"))
+                        </div>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert">
+                        </button>
+
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-primary alert-dismissible fade show shadow-sm"
+                         role="alert">
+
+                        @foreach (var line in ViewBag.Message)
+                        {
+                            <p class="text-center mb-1">@line</p>
+                        }
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert">
+                        </button>
+
+                    </div>
+                }
+            }
+
+            <!-- FILTRO -->
+            <div class="card border-0 shadow-sm mb-4">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-semibold mb-3">
+                        <i class="fa-solid fa-magnifying-glass me-2"></i>
+                        Buscar usuario
+                    </h5>
+
+                    <form asp-controller="Battleship"
+                          asp-action="Create"
+                          method="get">
+
+                        <div class="input-group">
+
+                            <span class="input-group-text bg-white">
+                                <i class="fa-solid fa-user"></i>
+                            </span>
+
+                            <input type="text"
+                                   name="usernameFilter"
+                                   class="form-control"
+                                   placeholder="Username..." />
+
+                            <button type="submit"
+                                    class="btn btn-dark">
+                                <i class="fa-solid fa-search me-1"></i>
+                                Buscar
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <!-- CARD -->
+            <div class="card border-0 shadow">
+
+                <div class="card-header bg-dark text-white p-3">
+
+                    <div class="d-flex align-items-center justify-content-between">
+
+                        <h5 class="mb-0 fw-semibold">
+                            <i class="fa-solid fa-users me-2"></i>
+                            Jugadores disponibles
+                        </h5>
+
+                        <span class="badge bg-primary">
+                            @Model.Count usuarios
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <form asp-controller="Battleship"
+                      asp-action="CreateGame"
+                      method="post">
+
+                    <div class="list-group list-group-flush"
+                         style="max-height: 450px; overflow-y: auto;">
+
+                        @foreach (var item in Model)
+                        {
+                            <label class="list-group-item list-group-item-action p-3">
+
+                                <div class="d-flex justify-content-between align-items-center">
+
+                                    <div class="d-flex align-items-center">
+
+                                        <img src="@Url.Content("~/" + item.ProfileImage)"
+                                             class="rounded-circle me-3 border"
+                                             width="55"
+                                             height="55"
+                                             style="object-fit: cover;"
+                                             alt="Profile" />
+
+                                        <div>
+
+                                            <div class="fw-semibold">
+                                                <i class="fa-solid fa-user me-1 text-secondary"></i>
+                                                @item.Name
+                                            </div>
+
+                                            <small class="text-muted">
+                                                @@@item.UserName
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                    <input type="radio"
+                                           name="SelectedUserId"
+                                           value="@item.Id"
+                                           class="form-check-input"
+                                           required />
+
+                                </div>
+
+                            </label>
+                        }
+
+                    </div>
+
+                    <div class="card-footer bg-white border-0 p-3">
+
+                        <div class="d-flex justify-content-end gap-2">
+
+                            <a asp-controller="Battleship"
+                                   asp-action="Index"
+                                   class="btn btn-outline-secondary">
+
+                                <i class="fa-solid fa-xmark me-1"></i>
+                                Cancelar
+
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+
+                                <i class="fa-solid fa-gamepad me-1"></i>
+                                Crear partida
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

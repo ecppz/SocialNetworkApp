@@ -1,0 +1,9 @@
+namespace Application.ViewModels.BattleshipGame.Game.Enums;
+
+public enum BoardType
+{
+    Attack,
+    Position,
+    Preview,
+    Results
+}

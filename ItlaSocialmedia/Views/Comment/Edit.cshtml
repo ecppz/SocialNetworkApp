@@ -1,0 +1,27 @@
+﻿@model EditCommentViewModel
+@{
+    bool isReply = ViewBag.IsReply ?? false;
+    ViewData["Title"] = $"Editando {(isReply ? "respuesta" : "comentario")}";
+    Layout = "_LayoutUser";
+}
+
+<h2 class="mb-4 text-center">
+    @(isReply ? "Editando respuesta" : "Editando comentario")
+</h2>
+
+<form asp-controller="Comment" asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="PostId" />
+    <input type="hidden" name="ReturnUrl" value="@Context.Request.Headers["Referer"]" />
+
+    <div class="mb-3">
+        <label asp-for="Text" class="form-label">Texto</label>
+        <input asp-for="Text" class="form-control" />
+        <span asp-validation-for="Text" class="text-danger"></span>
+    </div>
+
+    <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        <a href="@Context.Request.Headers["Referer"]" class="btn btn-outline-secondary">Cancelar</a>
+    </div>
+</form>

@@ -1,0 +1,63 @@
+﻿@model SavePostViewModel
+@{
+    ViewData["Title"] = "Crear publicación";
+    Layout = "_LayoutUser";
+}
+
+<div class="col-12 col-md-8 offset-md-2">
+    <div class="card">
+        <div class="card-header bg-success text-light"><h5 class="text-center">@("Creando nuevo post")</h5></div>
+        <div class="card-body">
+            <form asp-controller="Post" asp-action="Create"" method="POST" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="mb-3">
+                    <label asp-for="Content" class="form-label">Texto de la publicación:</label>
+                    <textarea class="form-control" asp-for="Content" rows="4" placeholder="Escribe algo..."></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ContentType" class="form-label">Tipo de contenido:</label>
+                    <select asp-for="ContentType" class="form-select" onchange="toggleMediaInputs()">
+                        <option value="">Selecciona una opción</option>
+                        <option value="image">Imagen</option>
+                        <option value="video">Video de YouTube</option>
+                    </select>
+                    <span asp-validation-for="ContentType" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3" id="imageInput" style="display:@(Model.ContentType == "image" ? "block" : "none")">
+                    <label asp-for="ImageFile" class="form-label">Subir imagen:</label>
+                    <input class="form-control" asp-for="ImageFile" />
+                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3" id="videoInput" style="display:@(Model.ContentType == "video" ? "block" : "none")">
+                    <label asp-for="YouTubeUrl" class="form-label">Enlace de YouTube:</label>
+                    <input class="form-control" asp-for="YouTubeUrl" placeholder="https://www.youtube.com/watch?v=..." />
+                    <span asp-validation-for="YouTubeUrl" class="text-danger"></span>
+                </div>
+
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-outline-success float-end">
+                        <i class="bi bi-send"></i> Publicar
+                    </button>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary float-end me-2">
+                        <i class="bi bi-arrow-left-short"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function toggleMediaInputs() {
+        const type = document.getElementById("ContentType").value;
+        document.getElementById("imageInput").style.display = type === "image" ? "block" : "none";
+        document.getElementById("videoInput").style.display = type === "video" ? "block" : "none";
+    }
+
+    window.onload = toggleMediaInputs;
+</script>

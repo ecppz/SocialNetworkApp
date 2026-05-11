@@ -1,0 +1,138 @@
+@using Domain.Common.Enums
+@model ShipSelectionViewModel
+
+@{
+    ViewData["Title"] = "Selección de barco";
+    Layout = "_LayoutUser";
+}
+
+<div class="container py-4">
+
+    <!-- MENSAJES -->
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-primary alert-dismissible fade show shadow-sm mb-4"
+             role="alert">
+
+            @if (ViewBag.Message is string)
+            {
+                <div class="text-center">
+                    @Html.Raw(ViewBag.Message.Replace("\n", "<br />"))
+                </div>
+            }
+            else
+            {
+                @foreach (var line in ViewBag.Message)
+                {
+                    <p class="text-center mb-1">@line</p>
+                }
+            }
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
+        </div>
+    }
+
+    <!-- HEADER -->
+    <div class="mb-4">
+        <h2 class="fw-bold mb-1 text-dark">
+            <i class="bi bi-ship me-2"></i>
+            Selección de barco
+        </h2>
+
+        <p class="text-muted mb-0">
+            Escoge el barco que deseas posicionar.
+        </p>
+
+    </div>
+
+    <!-- CARD -->
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-header bg-dark text-white">
+
+            <h5 class="mb-0">
+                Barcos disponibles
+            </h5>
+
+        </div>
+
+        <form asp-controller="Battleship"
+              asp-action="SetShipPosition"
+              method="get">
+
+            <input type="hidden"
+                   asp-for="GameId"
+                   value="@Model.GameId" />
+
+            <div class="card-body">
+
+                <div class="row g-3">
+
+                    @foreach (var item in Model.MissingShips)
+                    {
+                        <div class="col-md-6 col-lg-4">
+
+                            <label class="card h-100 shadow-sm">
+
+                                <div class="card-body text-center">
+
+                                    <input type="radio"
+                                           value="@((int)item)"
+                                           asp-for="SelectedShip"
+                                           class="form-check-input mb-3"
+                                           required />
+
+                                    <img src="~/Images/Ships/@(item.ToString().ToLower() + ".png")"
+                                         alt="@item.ToString()"
+                                         class="img-fluid mb-3"
+                                         style="max-height: 90px;" />
+
+                                    <h6 class="fw-bold">
+                                        @item.ToString()
+                                    </h6>
+
+                                    <p class="text-muted small mb-0">
+                                        @((int)item) posiciones
+                                    </p>
+
+                                </div>
+
+                            </label>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+            <div class="card-footer bg-light text-center">
+
+                <a asp-controller="Battleship"
+                       asp-action="Index"
+                       class="btn btn-outline-secondary me-2">
+
+                    <i class="bi bi-x-circle me-1"></i>
+                    Cancelar
+
+                </a>
+
+                <button type="submit"
+                        class="btn btn-success">
+
+                    <i class="bi bi-crosshair me-1"></i>
+                    Posicionar barco
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

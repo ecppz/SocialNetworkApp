@@ -1,0 +1,31 @@
+﻿@model FriendRequestDisplayViewModel
+@{
+    ViewData["Title"] = "Aceptar solicitud";
+    Layout = "_LayoutUser";
+}
+
+<div class="col-12 col-md-6 offset-md-3">
+    <div class="card shadow-sm">
+        <div class="card-header bg-success text-light text-center">
+            <h5>¿Estás seguro de que deseas aceptar la solicitud de amistad del usuario <strong>@Model.UserName</strong>?</h5>
+        </div>
+        <div class="card-body text-center">
+            <img src="@Url.Content(Model.ProfileImage.StartsWith("/") ? Model.ProfileImage : "/" + Model.ProfileImage)"
+                 style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;" />
+            <h6 class="mb-1"><strong>@Model.UserName</strong></h6>
+            <p class="text-muted">Amigos en común: @Model.MutualFriends</p>
+        </div>
+
+        <form asp-controller="FriendRequest" asp-action="Accept" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div class="d-flex justify-content-center gap-2 mt-3">
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-check-circle"></i> Aceptar
+                </button>
+                <a asp-controller="FriendRequest" asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left-short"></i> Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+﻿@model DeletePostViewModel
+@{
+    ViewData["Title"] = "Borrar publicación";
+    Layout = "_LayoutUser";
+}
+
+<div class="col-12 col-md-6 offset-md-3">
+    <div class="card shadow-sm">
+        <div class="card-header bg-danger text-light text-center">
+            <h5>¿Estás seguro de que deseas eliminar esta publicación?</h5>
+        </div>
+
+        <div class="card-body">
+            <p class="mb-3"><strong>Contenido:</strong> @Model.Content</p>
+            <p class="text-muted"><strong>Fecha de publicación:</strong> @Model.CreatedAt.ToString("g")</p>
+
+            <form asp-controller="Post" asp-action="Delete" method="post">
+                <input type="hidden" asp-for="Id" />
+                <div class="d-flex justify-content-center gap-2 mt-3">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Eliminar
+                    </button>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left-short"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
