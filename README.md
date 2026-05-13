@@ -34,3 +34,29 @@ Incluye autenticación segura, gestión de perfiles, publicaciones, amigos y un 
 - AutoMapper
 - FluentValidation
 - Bootstrap 5 (UI responsiva)
+- 
+## 🖼️ Screenshots
+- Login/Register
+  <img src="screenshots/login.png">
+  <img src="screenshots/register.png">
+- Posts
+  <img src="screenshots/home.png">
+- Friends Posts
+  <img src="screenshots/friend.png">
+- Friend Requests
+  <img src="screenshots/friend-request1.png">
+  <img src="screenshots/friend-request2.png">
+- BattleShip Game
+  <img src="screenshots/battleship-view.png">
+  <img src="screenshots/ship-selection.png">
+  <img src="screenshots/battleship-view2.png">
+  <img src="screenshots/battleship-view3.png">
+- My Profile
+  <img src="screenshots/profile.png">
+      
+## 👨‍💻 Equipo de Desarrollo
+
+- Eric Pineda
+  - eccpineda@gmail.com  
+- Yohansel Mieses
+  - miesesyohansel@gmail.com
