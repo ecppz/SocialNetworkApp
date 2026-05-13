@@ -1,0 +1,290 @@
+﻿/* =========================
+   VARIABLES
+========================= */
+:root {
+    --primary: #0070eb;
+    --primary-dark: #0058bc;
+    --secondary: #4c4aca;
+    --surface: #f9f9ff;
+    --white: #ffffff;
+    --text: #181c23;
+    --text-muted: #5b6475;
+    --border: #d9dfec;
+    --danger: #dc2626;
+    --font-display: 'Manrope', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --radius-full: 999px;
+}
+
+/* =========================
+   BASE
+========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--surface);
+    font-family: var(--font-body);
+    color: var(--text);
+}
+
+/* =========================
+   LAYOUT
+========================= */
+.login-page {
+    min-height: 100vh;
+}
+
+.page-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* =========================
+   LEFT SIDE
+========================= */
+.branding-side {
+    flex: 1.1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+}
+
+    .branding-side::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=1600&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+        opacity: .12;
+        mix-blend-mode: overlay;
+    }
+
+.brand-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+    max-width: 560px;
+}
+
+.brand-title {
+    font-family: var(--font-display);
+    font-size: 72px;
+    font-weight: 800;
+    line-height: .95;
+    letter-spacing: -3px;
+    margin-bottom: 20px;
+}
+
+.brand-tagline {
+    display: block;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 8px;
+    line-height: 1.4;
+}
+
+/* =========================
+   RIGHT SIDE
+========================= */
+.form-side {
+    flex: 1;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 420px;
+}
+
+/* HEADER */
+.form-header {
+    margin-bottom: 40px;
+}
+
+    .form-header h2 {
+        font-family: var(--font-display);
+        font-size: 38px;
+        font-weight: 800;
+    }
+
+    .form-header p {
+        color: var(--text-muted);
+        margin-top: 5px;
+    }
+
+/* =========================
+   INPUTS
+========================= */
+.form-group {
+    position: relative;
+    margin-bottom: 26px;
+}
+
+.input-field {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid var(--border);
+    background: transparent;
+    padding: 12px 0;
+    font-size: 16px;
+    outline: none;
+}
+
+.input-label {
+    position: absolute;
+    left: 0;
+    top: 12px;
+    color: var(--text-muted);
+    transition: .25s ease;
+    font-size: 15px;
+}
+
+.input-field:focus + .input-label,
+.input-field:not(:placeholder-shown) + .input-label {
+    top: -14px;
+    font-size: 12px;
+    color: var(--primary);
+    font-weight: 700;
+}
+.text-error {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--danger);
+}
+
+/* =========================
+   FILE UPLOAD MODERNO
+========================= */
+.form-section {
+    margin-bottom: 28px;
+}
+
+.section-label {
+    display: block;
+    font-weight: 500; /* clave */
+    font-size: 15px;
+    margin-bottom: 10px;
+    color: var(--text-muted);
+}
+
+.file-upload-card {
+    width: 100%;
+}
+
+    .file-upload-card input {
+        display: none;
+    }
+
+.file-upload-ui {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px;
+    border: 2px dashed var(--border);
+    border-radius: 14px;
+    cursor: pointer;
+    background: #f8f9fa;
+    transition: .2s ease;
+}
+
+    .file-upload-ui:hover {
+        border-color: var(--primary);
+        background: #f4f7ff;
+    }
+
+    .file-upload-ui i {
+        font-size: 26px;
+        color: var(--primary);
+    }
+
+.file-text strong {
+    display: block;
+    font-size: 14px;
+}
+
+.file-text span {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+
+
+/* =========================
+   BUTTONS
+========================= */
+.button-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.btn-primary {
+    height: 56px;
+    border-radius: var(--radius-full);
+    background: var(--primary);
+    color: white;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+    .btn-primary:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+
+/* =========================
+   AUTH LINK CENTERED
+========================= */
+.auth-footer {
+    text-align: center;
+    margin-top: 5px;
+}
+
+    .auth-footer a {
+        font-size: 14px;
+        color: var(--text-muted);
+        text-decoration: none;
+        font-weight: 600;
+        transition: .2s ease;
+    }
+
+        .auth-footer a:hover {
+            color: var(--primary);
+        }
+
+/* =========================
+   VALIDATION
+========================= */
+.custom-validation {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: var(--danger);
+    padding: 12px 14px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 1024px) {
+    .branding-side {
+        display: none;
+    }
+}

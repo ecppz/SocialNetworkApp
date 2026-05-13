@@ -1,0 +1,215 @@
+﻿:root {
+    --primary: #0070eb;
+    --primary-light: #f1f3fe;
+    --success: #10b981;
+    --danger: #ef4444;
+    --white: #ffffff;
+    --text: #1c1e21;
+    --text-muted: #65676b;
+    --border-light: #eff1f5;
+    --radius-lg: 18px;
+    --radius-full: 999px;
+    --font-display: 'Manrope', sans-serif;
+    --shadow-soft: 0 10px 30px rgba(0,0,0,.04);
+}
+
+.feed-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 30px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* HEADER SECTION */
+.fr-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.fr-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 24px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+}
+
+    .fr-title .material-symbols-outlined {
+        color: var(--primary);
+        font-size: 32px;
+    }
+
+/* CARDS */
+.fr-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+}
+
+.fr-card-header {
+    padding: 18px 20px;
+    background: var(--white);
+    border-bottom: 1px solid var(--border-light);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text);
+}
+
+    .fr-card-header .material-symbols-outlined {
+        color: var(--primary);
+    }
+
+/* LIST ITEMS */
+.fr-list-item {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-light);
+    transition: background 0.2s;
+}
+
+    .fr-list-item:last-child {
+        border-bottom: none;
+    }
+
+    .fr-list-item:hover {
+        background-color: #fafbfc;
+    }
+
+.fr-list-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.fr-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    border: 2px solid var(--primary-light);
+}
+
+.fr-user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.fr-username {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 16px;
+    color: var(--text);
+}
+
+.fr-meta {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* BADGES & ALERTS */
+.fr-badge {
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 6px;
+    width: fit-content;
+    margin-top: 4px;
+    text-transform: uppercase;
+}
+
+.fr-alert {
+    padding: 15px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.fr-alert-success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.fr-alert-error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* BUTTONS */
+.btn-modern {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    transition: 0.2s;
+    border: none;
+}
+
+.fr-btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+    .fr-btn-primary:hover {
+        background: #005bc5;
+        transform: translateY(-2px);
+    }
+
+.fr-btn-success {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+    .fr-btn-success:hover {
+        background: #e0e7ff;
+        color: var(--primary);
+    }
+
+.fr-btn-danger {
+    background: #fff1f1;
+    color: var(--danger);
+}
+
+    .fr-btn-danger:hover {
+        background: #ffe4e4;
+    }
+
+/* EMPTY STATE */
+.fr-empty {
+    padding: 40px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+    .fr-empty .material-symbols-outlined {
+        display: block;
+        font-size: 40px;
+        margin-bottom: 10px;
+        opacity: 0.3;
+    }

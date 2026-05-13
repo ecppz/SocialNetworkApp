@@ -1,24 +1,46 @@
 ﻿@model RegisterUserViewModel
 @{
-    ViewData["Title"] = "Register User";
+    ViewData["Title"] = "Registro";
     Layout = "_LayoutAnonymous";
 }
 
-<div class="container d-flex justify-content-center align-items-center py-5">
+<link rel="stylesheet" href="~/styles/views/register.css" asp-append-version="true" />
 
-    <div class="col-12 col-md-6">
+<div class="login-page">
 
-        <div class="card shadow-sm border-0">
+    <div class="page-wrapper">
 
-            <div class="card-header bg-dark text-white text-center fw-bold">
-                <i class="bi bi-person-plus-fill me-2"></i>Register
+        <!-- LEFT -->
+        <section class="branding-side">
+
+            <div class="brand-content">
+                <h1 class="brand-title">
+                    Únete.<br />
+                    Conecta.<br />
+                    Crece.
+                </h1>
+
+                <p class="brand-tagline">
+                    Comparte lo que piensas, descubre contenido nuevo y conecta sin límites.
+                </p>
+
             </div>
 
-            <div class="card-body p-4">
+        </section>
+
+        <!-- RIGHT -->
+        <section class="form-side">
+
+            <div class="login-container">
+
+                <header class="form-header">
+                    <h2>Crear cuenta</h2>
+                    <p>Completa tus datos para registrarte</p>
+                </header>
 
                 @if (ViewBag.HasError != null && ViewBag.HasError)
                 {
-                    <div class="alert alert-danger">
+                    <div class="custom-validation">
                         @foreach (var error in ViewBag.Errors)
                         {
                             <div>@error</div>
@@ -26,80 +48,96 @@
                     </div>
                 }
 
-                <form asp-controller="Login" asp-action="Register" method="POST" enctype="multipart/form-data">
+                <form asp-controller="Login"
+                      asp-action="Register"
+                      method="post"
+                      enctype="multipart/form-data">
 
-                    <div class="row">
+                    <!-- NAME -->
+                    <div class="form-group">
+                        <input asp-for="Name" class="input-field" placeholder=" " />
+                        <label class="input-label">Nombre</label>
+                        <span asp-validation-for="Name" class="text-error"></span>
+                    </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label asp-for="Name" class="form-label">Name</label>
-                            <input class="form-control" asp-for="Name" />
+                    <!-- LASTNAME -->
+                    <div class="form-group">
+                        <input asp-for="LastName" class="input-field" placeholder=" " />
+                        <label class="input-label">Apellido</label>
+                        <span asp-validation-for="LastName" class="text-error"></span>
+                    </div>
+
+                    <!-- EMAIL -->
+                    <div class="form-group">
+                        <input asp-for="Email" class="input-field" placeholder=" " />
+                        <label class="input-label">Correo electrónico</label>
+                        <span asp-validation-for="Email" class="text-error"></span>
+                    </div>
+
+                    <!-- USERNAME -->
+                    <div class="form-group">
+                        <input asp-for="UserName" class="input-field" placeholder=" " />
+                        <label class="input-label">Usuario</label>
+                        <span asp-validation-for="UserName" class="text-error"></span>
+                    </div>
+
+                    <!-- PASSWORD -->
+                    <div class="form-group">
+                        <input asp-for="Password" type="password" class="input-field" placeholder=" " />
+                        <label class="input-label">Contraseña</label>
+                        <span asp-validation-for="Password" class="text-error"></span>
+                    </div>
+
+                    <!-- CONFIRM PASSWORD -->
+                    <div class="form-group">
+                        <input asp-for="ConfirmPassword" type="password" class="input-field" placeholder=" " />
+                        <label class="input-label">Confirmar contraseña</label>
+                        <span asp-validation-for="ConfirmPassword" class="text-error"></span>
+                    </div>
+
+                    <!-- PHONE -->
+                    <div class="form-group">
+                        <input asp-for="Phone" class="input-field" placeholder=" " />
+                        <label class="input-label">Teléfono</label>
+                        <span asp-validation-for="Phone" class="text-error"></span>
+                    </div>
+
+                    <!-- IMAGE -->
+                    <div class="form-section">
+
+                        <label class="section-label">
+                            Foto de perfil
+                        </label>
+
+                        <div class="file-upload-card">
+                            <input asp-for="ProfileImageFile" type="file" id="fileInput" />
+
+                            <label for="fileInput" class="file-upload-ui">
+                                <i class="ph-bold ph-cloud-arrow-up"></i>
+
+                                <div class="file-text">
+                                    <strong>Sube tu imagen</strong>
+                                    <span>PNG, JPG hasta 5MB</span>
+                                </div>
+                            </label>
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label asp-for="LastName" class="form-label">Last Name</label>
-                            <input class="form-control" asp-for="LastName" />
-                        </div>
+                        <span asp-validation-for="ProfileImageFile" class="text-error"></span>
 
                     </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Email" class="form-label">Email</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                            <input class="form-control" asp-for="Email" />
-                        </div>
-                    </div>
+                    <!-- BUTTONS -->
+                    <div class="button-stack">
 
-                    <div class="mb-3">
-                        <label asp-for="UserName" class="form-label">Username</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-person"></i></span>
-                            <input class="form-control" asp-for="UserName" />
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="Password" class="form-label">Password</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                            <input type="password" class="form-control" asp-for="Password" />
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                            <input type="password" class="form-control" asp-for="ConfirmPassword" />
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="Phone" class="form-label">Phone</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-telephone"></i></span>
-                            <input class="form-control" asp-for="Phone" />
-                        </div>
-                    </div>
-
-                    <div class="mb-4">
-                        <label asp-for="ProfileImageFile" class="form-label">Profile Image</label>
-                        <input class="form-control" asp-for="ProfileImageFile" />
-                    </div>
-
-                    <div class="d-grid gap-2">
-
-                        <button type="submit" class="btn btn-dark">
-                            <i class="bi bi-floppy me-1"></i>Save
+                        <button type="submit" class="btn-primary">
+                            Crear cuenta
                         </button>
 
-                        <a asp-controller="Login"
-                               asp-action="Index"
-                               class="btn btn-outline-dark">
-
-                            <i class="bi bi-arrow-left me-1"></i>Back to login
-
-                        </a>
+                        <div class="auth-footer">
+                            <a asp-controller="Login" asp-action="Index">
+                                Ya tengo cuenta
+                            </a>
+                        </div>
 
                     </div>
 
@@ -107,7 +145,7 @@
 
             </div>
 
-        </div>
+        </section>
 
     </div>
 

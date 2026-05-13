@@ -1,0 +1,105 @@
+﻿/* wwwroot/css/profile.css */
+:root {
+    --glass-bg: #ffffff;
+    --primary-social: #0d6efd;
+    --primary-dark: #0a58ca;
+    --accent-social: #198754;
+    --input-bg: #f8f9fa;
+    --text-muted: #6c757d;
+}
+
+.profile-edit-container {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+    /* Eliminado el background-color gris */
+    min-height: 100vh;
+}
+
+.profile-card {
+    background: var(--glass-bg);
+    border: 1px solid #eee; /* Un borde sutil para definir la tarjeta sobre fondo blanco */
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.profile-header-gradient {
+    background: linear-gradient(135deg, #0d6efd 0%, #198754 100%);
+    height: 120px;
+    border-radius: 15px 15px 0 0;
+}
+
+.avatar-upload-wrapper {
+    position: relative;
+    margin-top: -60px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.avatar-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 5px solid #fff;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    background: #fff;
+}
+
+.form-floating > .form-control {
+    border-radius: 10px;
+    border: 1px solid #dee2e6;
+    background-color: var(--input-bg);
+}
+
+    .form-floating > .form-control:focus {
+        background-color: #fff;
+        border-color: var(--primary-social);
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+    }
+
+.section-title {
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--primary-social);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+    .section-title::after {
+        content: "";
+        height: 2px;
+        background: #e9ecef;
+        flex-grow: 1;
+    }
+
+.btn-save {
+    background: var(--primary-social);
+    color: #fff;
+    border-radius: 8px;
+    padding: 10px 25px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+    .btn-save:hover {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+    }
+
+.btn-back {
+    color: var(--text-muted);
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+    .btn-back:hover {
+        color: var(--primary-social);
+    }

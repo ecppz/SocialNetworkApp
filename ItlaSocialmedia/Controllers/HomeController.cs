@@ -105,6 +105,7 @@ namespace ItlaSocialMedia.Controllers
             }
 
             ViewBag.CurrentUserId = currentUserId;
+            ViewBag.CurrentUserProfile = userSession.ProfileImage;
             return View(postVms);
         }
 

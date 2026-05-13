@@ -1,70 +1,118 @@
 ﻿@model LoginViewModel
 @{
-    ViewData["Title"] = "Login Page";
+    ViewData["Title"] = "Iniciar sesión";
     Layout = "_LayoutAnonymous";
 }
 
-<div class="container d-flex justify-content-center align-items-center" style="min-height:80vh;">
+<link rel="stylesheet"
+      href="~/styles/views/login.css"
+      asp-append-version="true" />
 
-    <div class="col-12 col-md-4">
+<div class="login-page">
 
-        <div class="card shadow-sm border-0">
+    <div class="page-wrapper">
 
-            <div class="card-header bg-dark text-white text-center fw-bold">
-                <i class="bi bi-box-arrow-in-right me-2"></i>Login
+        <!-- BRAND SIDE -->
+        <section class="branding-side">
+
+            <div class="brand-content">
+
+                <div class="brand-badge">
+                </div>
+
+                <h1 class="brand-title">
+                    Comparte.<br />
+                    Conecta.<br />
+                    Descubre.
+                </h1>
+                <p class=".brand-tagline">Comparte lo que piensas, conecta y descubre contenido nuevo.</p>
             </div>
 
-            <div class="card-body p-4">
+        </section>
 
-                @Html.ValidationSummary(false, "", new { @class = "text-danger mb-3" })
+        <!-- FORM SIDE -->
+        <section class="form-side">
 
-                <form asp-controller="Login" asp-action="Index" method="POST">
+            <div class="login-container">
 
-                    <div class="mb-3">
+                <header class="form-header">
 
-                        <label asp-for="UserName" class="form-label">Username</label>
+                    <h2>Bienvenido</h2>
 
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-person"></i>
-                            </span>
-                            <input class="form-control" asp-for="UserName" />
-                        </div>
+                    <p>
+                        Accede a tu cuenta para continuar
+                    </p>
+
+                </header>
+
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="custom-validation">
+
+                        @Html.ValidationSummary(false)
+
+                    </div>
+                }
+
+                <form asp-controller="Login"
+                      asp-action="Index"
+                      method="post">
+
+                    <!-- USERNAME -->
+                    <div class="form-group">
+
+                        <input asp-for="UserName"
+                               class="input-field"
+                               placeholder=" " />
+
+                        <label asp-for="UserName"
+                               class="input-label">
+
+                            Correo electrónico o Usuario
+
+                        </label>
 
                     </div>
 
-                    <div class="mb-3">
+                    <!-- PASSWORD -->
+                    <div class="form-group">
 
-                        <label asp-for="Password" class="form-label">Password</label>
+                        <input asp-for="Password"
+                               type="password"
+                               class="input-field"
+                               placeholder=" " />
 
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-lock"></i>
-                            </span>
-                            <input type="password" class="form-control" asp-for="Password" />
-                        </div>
+                        <label asp-for="Password"
+                               class="input-label">
+
+                            Contraseña
+
+                        </label>
 
                     </div>
 
-                    <div class="d-grid gap-2">
+                    <div class="button-stack">
 
-                        <button type="submit" class="btn btn-dark">
-                            <i class="bi bi-door-open me-1"></i>Login
+                        <button type="submit"
+                                class="btn-primary">
+                            Iniciar sesión
+
                         </button>
 
                         <a asp-controller="Login"
-                               asp-action="Register"
-                               class="btn btn-outline-dark">
+                               asp-action="ForgotPassword"
+                               class="forgot-link">
 
-                            <i class="bi bi-person-plus me-1"></i>Crear cuenta
+                            ¿Olvidaste tu contraseña?
 
                         </a>
 
-                        <a asp-controller="Login"
-                               asp-action="ForgotPassword"
-                               class="text-center small text-muted">
+                        <div class="separator"></div>
 
-                            ¿Olvidaste tu contraseña?
+                        <a asp-controller="Login"
+                               asp-action="Register"
+                               class="btn-secondary">
+                            Crear cuenta nueva
 
                         </a>
 
@@ -74,7 +122,7 @@
 
             </div>
 
-        </div>
+        </section>
 
     </div>
 

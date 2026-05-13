@@ -36,15 +36,11 @@ namespace ItlaSocialMedia.Controllers
             this.mapper = mapper;
         }
 
-        private Guid GetUserId()
-        {
-            return Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        }
-
         [Route("Friend/{userName}")]
         public async Task<IActionResult> FriendProfile(string userName)
         {
-            var currentUserId = GetUserId();
+            var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userSession = await userManager.GetUserAsync(User);
 
             var friend = await userManager.FindByNameAsync(userName);
             if (friend == null)
@@ -125,17 +121,18 @@ namespace ItlaSocialMedia.Controllers
 
                 postVm.Comments = rootComments;
             }
+
             ViewBag.CurrentUserId = currentUserId;
+            ViewBag.CurrentUserProfile = userSession.ProfileImage;
+
             ViewBag.FriendName = $"{friend.Name} {friend.LastName}";
             return View(postVms);
         }
 
-
-
-
         public async Task<IActionResult> Index()
         {
             var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userSession = await userManager.GetUserAsync(User);
 
             var friendIds = await friendRequestService.GetAcceptedFriendIdsAsync(currentUserId);
             var friendIdStrings = friendIds.Select(id => id.ToString()).ToList();
@@ -217,11 +214,12 @@ namespace ItlaSocialMedia.Controllers
                 Posts = postViewModels
             };
             ViewBag.CurrentUserId = currentUserId;
+            ViewBag.CurrentUserProfile = userSession.ProfileImage;
             return View(vm);
         }
         public async Task<IActionResult> Delete(Guid id)
         {
-            var currentUserId = GetUserId();
+            var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             var friendId = id.ToString();
             var friend = await userManager.Users.FirstOrDefaultAsync(u => u.Id == friendId);
             if (friend == null)
@@ -261,8 +259,8 @@ namespace ItlaSocialMedia.Controllers
                 return View(vm);
             }
 
-            var userId = GetUserId();
-            var success = await friendService.RemoveFriendAsync(userId, vm.Id);
+            var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var success = await friendService.RemoveFriendAsync(currentUserId, vm.Id);
 
             if (success)
             {

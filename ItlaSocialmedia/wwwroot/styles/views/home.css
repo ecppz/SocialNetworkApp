@@ -1,0 +1,342 @@
+﻿:root {
+    --primary: #0070eb;
+    --primary-dark: #0058bc;
+    --surface: #f9f9ff;
+    --white: #ffffff;
+    --text: #181c23;
+    --text-muted: #5b6475;
+    --border: #d9dfec;
+    --border-light: #e7ebf4;
+    --danger: #dc2626;
+    --font-display: 'Manrope', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --radius-lg: 18px;
+    --radius-full: 999px;
+    --shadow-soft: 0 10px 30px rgba(0,0,0,.06);
+}
+
+body {
+    background-color: var(--surface);
+    font-family: var(--font-body);
+    color: var(--text);
+}
+
+.feed-container {
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 30px 15px;
+}
+
+.card {
+    background-color: var(--white);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+}
+
+/* COMPOSER */
+.composer {
+    padding: 20px;
+}
+
+.composer-body {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-create-placeholder {
+    flex: 1;
+    background-color: #f1f3fe;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 14px 22px;
+    border-radius: var(--radius-full);
+    font-size: 15px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+    .btn-create-placeholder:hover {
+        background-color: #e7ebf8;
+        color: var(--primary);
+    }
+
+/* POST HEADER & CONTENT */
+.post-header {
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.post-meta {
+    flex: 1;
+}
+
+.author-name {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 15px;
+}
+
+.post-time {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.post-content {
+    padding: 0 20px 18px 20px;
+}
+
+.post-media-wrapper {
+    padding: 0 15px 15px 15px; /
+    width: 100%;
+}
+.post-image {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover; 
+    border-radius: 12px;
+    border: 1px solid var(--border-light);
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.ratio-16x9 {
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+}
+.post-body-text {
+    font-size: 16px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+/* INTERACTIONS */
+.post-interactions {
+    padding: 12px 20px;
+    display: flex;
+    gap: 24px;
+    border-top: 1px solid var(--border-light);
+}
+
+.interaction-btn {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+    .interaction-btn.active {
+        color: var(--primary);
+    }
+
+    .interaction-btn.active-dislike {
+        color: var(--danger);
+    }
+
+/* COMMENTS SECTION */
+.comments-section {
+    background-color: #fcfdfe;
+    padding: 20px;
+    border-top: 1px solid var(--border-light);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.comment-entry {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.comment-data {
+    flex: 1;
+    min-width: 0;
+}
+
+/* BUBBLE & OPTIONS */
+.comment-bubble-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+}
+
+.comment-bubble {
+    background-color: #f1f3fe;
+    padding: 10px 14px;
+    border-radius: 18px;
+    max-width: calc(100% - 40px);
+    word-break: break-word;
+}
+
+.comment-author {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 13px;
+    color: var(--text);
+    margin-bottom: 2px;
+}
+
+.comment-text {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.4;
+}
+
+/* LOS 3 PUNTOS (HIDDEN BY DEFAULT) */
+.comment-options {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.comment-bubble-wrapper:hover .comment-options {
+    opacity: 1;
+}
+
+/* Asegurar que el dropdown se alinee correctamente en los comentarios */
+.comment-bubble-wrapper .dropdown-content {
+    right: auto;
+    left: 0;
+    top: 20px;
+}
+
+.comment-options .more-btn span {
+    font-size: 18px;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.comment-options .more-btn:hover span {
+    background: var(--border-light);
+}
+
+.comment-actions {
+    display: flex;
+    gap: 12px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.action-btn {
+    cursor: pointer;
+}
+
+    .action-btn:hover {
+        color: var(--primary);
+    }
+
+/* INPUTS */
+.main-comment-input, .reply-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.input-container {
+    position: relative;
+    flex: 1;
+}
+
+.comment-input-field {
+    width: 100%;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 10px 45px 10px 15px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+    .comment-input-field:focus {
+        border-color: var(--primary);
+    }
+
+.inline-send-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+/* DROPDOWN CUSTOM */
+.dropdown {
+    position: relative;
+}
+
+.more-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    display: flex;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 25px;
+    background: #fff;
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    min-width: 120px;
+    z-index: 100;
+    box-shadow: var(--shadow-soft);
+}
+
+.dropdown:hover .dropdown-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdown-content a {
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+}
+
+    .dropdown-content a:hover {
+        background: var(--surface);
+        color: var(--primary);
+    }
+
+    .dropdown-content a.danger {
+        color: var(--danger);
+    }
+
+/* AVATARS */
+.avatar {
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}

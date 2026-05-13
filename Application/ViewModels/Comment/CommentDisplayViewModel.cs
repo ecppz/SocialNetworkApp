@@ -3,11 +3,8 @@
     public class CommentDisplayViewModel
     {
         public Guid Id { get; set; }
-
         public required string Text { get; set; }
-
         public DateTime CreatedAt { get; set; }
-
         public Guid UserId { get; set; }
         public string? UserName { get; set; }
         public string? ProfileImage { get; set; }

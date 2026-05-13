@@ -1,191 +1,166 @@
 ﻿@using Domain.Common.Enums
 @model IEnumerable<PostDisplayViewModel>
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
     Layout = "_LayoutUser";
     var currentUserId = (Guid)ViewBag.CurrentUserId;
 }
 
+<link rel="stylesheet" href="~/styles/views/home.css" asp-append-version="true" />
 
-@if (TempData["Message"] != null)
-{
-    <div class="alert alert-@(TempData["MessageType"] ?? "info") alert-dismissible fade show mt-3" role="alert">
-        @TempData["Message"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
+<div class="feed-container">
+    <!-- COMPOSER -->
+    <section class="card composer">
+        <div class="composer-body">
+            <img src="@(ViewBag.CurrentUserProfile ?? "/images/default-avatar.png")" width="45" height="45" class="avatar" />
+            <a asp-controller="Post" asp-action="Create" class="btn-create-placeholder">¿Qué estás pensando hoy?</a>
+        </div>
+    </section>
 
-<div class="d-flex justify-content-center my-4">
-
-    <a asp-controller="Post"
-           asp-action="Create"
-           class="btn btn-primary px-4 py-2 rounded-pill shadow-sm d-inline-flex align-items-center gap-2">
-
-        <i class="bi bi-plus-circle-fill"></i>
-        Nueva publicación
-
-    </a>
-
-</div>
-<div class="row justify-content-center">
-    <div class="col-lg-8">
-        @foreach (var post in Model.OrderByDescending(p => p.CreatedAt))
-        {
-            <div class="card shadow-sm mb-4" style="border-radius: 12px;">
-                <div class="card-header bg-light d-flex align-items-center" style="padding: 0.75rem 1rem;">
-                    <div class="d-flex align-items-center" style="gap: 0.75rem;">
-                        <div style="width: 48px; height: 48px; overflow: hidden; border-radius: 50%; flex-shrink: 0;">
-                            <img src="@post.ProfileImage" alt="Foto de perfil"
-                                 style="width: 100%; height: 100%; object-fit: cover;" />
+    @foreach (var post in Model.OrderByDescending(p => p.CreatedAt))
+    {
+        <article class="card post-article">
+            <header class="post-header">
+                <img src="@(post.ProfileImage ?? "/images/default-avatar.png")" width="42" height="42" class="avatar" />
+                <div class="post-meta">
+                    <span class="author-name">@post.UserName</span>
+                    <span class="post-time">@post.CreatedAt.ToString("g")</span>
+                </div>
+                @if (post.UserId == currentUserId)
+                {
+                    <div class="dropdown">
+                        <button class="more-btn"><span class="material-symbols-outlined">more_horiz</span></button>
+                        <div class="dropdown-content">
+                            <a asp-controller="Post" asp-action="Edit" asp-route-id="@post.Id">Editar</a>
+                            <a asp-controller="Post" asp-action="Delete" asp-route-id="@post.Id" class="danger">Eliminar</a>
                         </div>
-                        <div>
-                                <strong>@post.UserName</strong>
-                                <br />
-                            <small class="text-muted">@post.CreatedAt.ToString("g")</small>
-                        </div>
+                    </div>
+                }
+            </header>
+
+            <div class="post-content">
+                @if (!string.IsNullOrEmpty(post.Content))
+                {
+                    <p class="post-body-text">@post.Content</p>
+                }
+            </div>
+
+            @if (!string.IsNullOrEmpty(post.ImageFile))
+            {
+                <div class="post-media-wrapper">
+                    <img src="@post.ImageFile" class="post-image" alt="Post media" />
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(post.YouTubeUrl))
+            {
+                <div style="padding: 15px;">
+                    <div class="ratio ratio-16x9" style="border-radius:12px; overflow:hidden;">
+                        <iframe src="@post.YouTubeUrl.Replace("watch?v=", "embed/")" allowfullscreen style="border:0;"></iframe>
                     </div>
                 </div>
-                <div class="card-body">
-                    @if (post.UserId == currentUserId)
-                    {
-                        <div class="mt-3 d-flex justify-content-end gap-2">
-                            <a asp-controller="Post" asp-action="Edit" asp-route-id="@post.Id" class="btn btn-sm btn-outline-warning">
-                                <i class="bi bi-pencil-square"></i> Editar
-                            </a>
-                            <a asp-controller="Post" asp-action="Delete" asp-route-id="@post.Id" class="btn btn-sm btn-outline-danger">
-                                <i class="bi bi-trash"></i> Eliminar
-                            </a>
-                        </div>
-                    }
-                    <p class="mb-3">@post.Content</p>
+            }
 
-                    @if (!string.IsNullOrEmpty(post.ImageFile))
-                    {
-                        <img src="@post.ImageFile" class="img-fluid rounded mb-3" alt="Imagen del post" />
-                    }
+            <div class="post-interactions">
+                <form asp-controller="Reaction" asp-action="React" method="post" style="display:contents">
+                    <input type="hidden" name="postId" value="@post.Id" />
+                    <button type="submit" name="type" value="Like" class="interaction-btn @(post.Reactions.Any(r => r.UserId == currentUserId && r.Type == ReactionType.Like) ? "active" : "")">
+                        <span class="material-symbols-outlined">thumb_up</span> @post.Reactions?.Count(r => r.Type == ReactionType.Like)
+                    </button>
+                    <button type="submit" name="type" value="Dislike" class="interaction-btn @(post.Reactions.Any(r => r.UserId == currentUserId && r.Type == ReactionType.Dislike) ? "active-dislike" : "")">
+                        <span class="material-symbols-outlined">thumb_down</span> @post.Reactions?.Count(r => r.Type == ReactionType.Dislike)
+                    </button>
+                </form>
+                <div class="interaction-btn"><span class="material-symbols-outlined">chat_bubble</span> @post.Comments.Count()</div>
+            </div>
 
-                    @if (!string.IsNullOrEmpty(post.YouTubeUrl))
-                    {
-                        <div class="ratio ratio-16x9 mb-3">
-                            <iframe src="@post.YouTubeUrl.Replace("watch?v=", "embed/")" allowfullscreen></iframe>
-                        </div>
-                    }
+            <!-- COMMENTS SECTION -->
+            <section class="comments-section">
+                @foreach (var comment in post.Comments.Where(c => c.ReplyToCommentId == null))
+                {
+                    <div class="comment-entry">
+                        <img src="@(comment.ProfileImage ?? "/images/default-avatar.png")" width="32" height="32" class="avatar" />
+                        <div class="comment-data">
+                            <div class="comment-bubble-wrapper">
+                                <div class="comment-bubble">
+                                    <span class="comment-author">@comment.UserName</span>
+                                    <p class="comment-text">@comment.Text</p>
+                                </div>
+                                @if (comment.UserId == currentUserId)
+                                {
+                                    <div class="dropdown comment-options">
+                                        <button class="more-btn"><span class="material-symbols-outlined">more_horiz</span></button>
+                                        <div class="dropdown-content">
+                                            @* AGREGADO: Editar Comentario *@
+                                            <a asp-controller="Comment" asp-action="Edit" asp-route-id="@comment.Id">Editar</a>
+                                            <a asp-controller="Comment" asp-action="Delete" asp-route-id="@comment.Id" class="danger">Eliminar</a>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="comment-actions">
+                                <span class="action-btn" onclick="toggleReply('@comment.Id')">Responder</span>
+                                <span>· @comment.CreatedAt.ToString("t")</span>
+                            </div>
 
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <div class="text-muted small">
-                            Likes @post.Reactions?.Count(r => r.Type == ReactionType.Like)
-                            Dislikes @post.Reactions?.Count(r => r.Type == ReactionType.Dislike)
-                        </div>
-                        <form asp-controller="Reaction" asp-action="React" method="POST" class="d-flex gap-2">
-                            <input type="hidden" name="postId" value="@post.Id" />
-                            <button type="submit" name="type" value="Like"
-                                    class="btn btn-sm @(post.CurrentUserReaction == ReactionType.Like ? "btn-success" : "btn-outline-success")">
-                                Me gusta
-                            </button>
+                            <!-- REPLY FORM -->
+                            <form id="reply-@comment.Id" asp-controller="Comment" asp-action="Reply" method="post" class="reply-form" style="display:none;">
+                                <input type="hidden" name="postId" value="@post.Id" />
+                                <input type="hidden" name="replyToCommentId" value="@comment.Id" />
+                                <div class="input-container">
+                                    <input type="text" name="text" class="comment-input-field" placeholder="Escribe una respuesta..." required />
+                                    <button type="submit" class="inline-send-btn"><span class="material-symbols-outlined">send</span></button>
+                                </div>
+                            </form>
 
-                            <button type="submit" name="type" value="Dislike"
-                                    class="btn btn-sm @(post.CurrentUserReaction == ReactionType.Dislike ? "btn-danger" : "btn-outline-danger")">
-                                No me gusta
-                            </button>
-                        </form>
-                    </div>
-
-                    <form asp-controller="Comment" asp-action="AddComment" method="post">
-                        <input type="hidden" name="postId" value="@post.Id" />
-                        <div class="input-group input-group-sm">
-                            <input type="text" name="text" class="form-control" placeholder="Agregar comentario..." />
-                            <button type="submit" class="btn btn-outline-primary">Comentar</button>
-                        </div>
-                    </form>
-
-
-                    @if (post.Comments != null && post.Comments.Any())
-                    {
-                        <div class="mt-3">
-                            @foreach (var comment in post.Comments.Where(c => c.ReplyToCommentId == null).OrderBy(c => c.CreatedAt))
+                            <!-- REPLIES -->
+                            @foreach (var reply in comment.Replies)
                             {
-                                <div class="d-flex mb-2" style="gap: 0.75rem;">
-                                    <img src="@comment.ProfileImage" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;" />
-                                    <div>
-                                        <strong>@comment.UserName</strong><br />
-                                        <small class="text-muted">@comment.CreatedAt.ToString("g")</small><br />
-                                        <span>@comment.Text</span>
-
-                                        @if ((Guid)ViewBag.CurrentUserId == comment.UserId)
-                                        {
-                                            <div class="mt-1 d-flex gap-2">
-                                                <form asp-controller="Comment" asp-action="Edit" method="get" style="display:inline;">
-                                                    <input type="hidden" name="id" value="@comment.Id" />
-                                                    <input type="hidden" name="isReply" value="false" />
-                                                    <button type="submit" class="btn btn-sm btn-outline-warning">
-                                                        <i class="bi bi-pencil-square"></i>
-                                                    </button>
-                                                </form>
-
-                                                <form asp-controller="Comment" asp-action="Delete" asp-route-id="@comment.Id" method="post" style="display:inline;">
-                                                    <input type="hidden" name="isReply" value="false" />
-                                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('estas seguro de que quieres eliminar este comentario?');">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </form>
-
+                                <div class="comment-entry" style="margin-top:10px; padding-left:10px;">
+                                    <img src="@(reply.ProfileImage ?? "/images/default-avatar.png")" width="24" height="24" class="avatar" />
+                                    <div class="comment-data">
+                                        <div class="comment-bubble-wrapper">
+                                            <div class="comment-bubble">
+                                                <span class="comment-author">@reply.UserName</span>
+                                                <p class="comment-text">@reply.Text</p>
                                             </div>
-                                        }
-
-                                        @if (comment.Replies != null && comment.Replies.Any())
-                                        {
-                                            <div class="mt-2 ms-4">
-                                                @foreach (var reply in comment.Replies.OrderBy(r => r.CreatedAt))
-                                                {
-                                                    <div class="d-flex mb-2" style="gap: 0.5rem;">
-                                                        <img src="@reply.ProfileImage" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;" />
-                                                        <div>
-                                                            <strong>@reply.UserName</strong><br />
-                                                            <small class="text-muted">@reply.CreatedAt.ToString("g")</small><br />
-                                                            <span>@reply.Text</span>
-                                                                @if ((Guid)ViewBag.CurrentUserId == reply.UserId)
-                                                                {
-                                                                <div class="mt-1 d-flex gap-2">
-                                                                    <form asp-controller="Comment" asp-action="Edit" method="get" style="display:inline;">
-                                                                        <input type="hidden" name="id" value="@reply.Id" />
-                                                                        <input type="hidden" name="isReply" value="true" />
-                                                                        <button type="submit" class="btn btn-sm btn-outline-warning">
-                                                                            <i class="bi bi-pencil-square"></i>
-                                                                        </button>
-                                                                    </form>
-
-                                                                    <form asp-controller="Comment" asp-action="Delete" asp-route-id="@reply.Id" method="post" style="display:inline;">
-                                                                        <input type="hidden" name="isReply" value="true" />
-                                                                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('estas seguro de que quieres eliminar esta respuesta?');">
-                                                                            <i class="bi bi-trash"></i>
-                                                                        </button>
-                                                                    </form>
-
-                                                                </div>
-                                                                }
-                                                        </div>
+                                            @if (reply.UserId == currentUserId)
+                                            {
+                                                <div class="dropdown comment-options">
+                                                    <button class="more-btn"><span class="material-symbols-outlined">more_horiz</span></button>
+                                                    <div class="dropdown-content">
+                          
+                                                        <a asp-controller="Comment" asp-action="Edit" asp-route-id="@reply.Id">Editar</a>
+                                                        <a asp-controller="Comment" asp-action="Delete" asp-route-id="@reply.Id" class="danger">Eliminar</a>
                                                     </div>
-                                                }
-                                            </div>
-                                        }
-
-                                        <form asp-controller="Comment" asp-action="Reply" method="post" class="mt-2">
-                                            <input type="hidden" name="postId" value="@post.Id" />
-                                            <input type="hidden" name="replyToCommentId" value="@comment.Id" />
-                                            <div class="input-group input-group-sm">
-                                                <input type="text" name="text" class="form-control" placeholder="Responder..." />
-                                                <button type="submit" class="btn btn-outline-secondary">Reply</button>
-                                            </div>
-                                        </form>
+                                                </div>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             }
-
                         </div>
-                    }
+                    </div>
+                }
 
+                <!-- MAIN COMMENT INPUT -->
+                <div class="main-comment-input">
+                    <img src="@(ViewBag.CurrentUserProfile ?? "/images/default-avatar.png")" width="32" height="32" class="avatar" />
+                    <form asp-controller="Comment" asp-action="AddComment" method="post" class="input-container">
+                        <input type="hidden" name="postId" value="@post.Id" />
+                        <input name="text" class="comment-input-field" placeholder="Escribe un comentario..." required />
+                        <button type="submit" class="inline-send-btn"><span class="material-symbols-outlined">send</span></button>
+                    </form>
                 </div>
-            </div>
-        }
-    </div>
+            </section>
+        </article>
+    }
 </div>
+
+<script>
+    function toggleReply(id) {
+        const form = document.getElementById('reply-' + id);
+        form.style.display = form.style.display === 'none' ? 'flex' : 'none';
+        if(form.style.display === 'flex') form.querySelector('input').focus();
+    }
+</script>
