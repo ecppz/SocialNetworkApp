@@ -29,7 +29,7 @@ namespace ItlaSocialMedia
 
             var app = builder.Build();
             
-            await app.Services.RunIdentitySeedAsync();
+          //  await app.Services.RunIdentitySeedAsync();
 
 
             // Configure the HTTP request pipeline.
