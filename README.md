@@ -1,4 +1,3 @@
-
 # Social Network App
 
 Red social construida en **ASP.NET Core MVC** con arquitectura **Onion** y **Entity Framework Core (Code-First)**.  
