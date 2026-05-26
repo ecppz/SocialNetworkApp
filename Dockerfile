@@ -6,9 +6,9 @@ COPY ["ItlaSocialMedia.sln", "./"]
 COPY ["ItlaSocialmedia/ItlaSocialmedia.csproj", "ItlaSocialmedia/"]
 COPY ["Application/Application.csproj", "Application/"]
 COPY ["Domain/Domain.csproj", "Domain/"]
-COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 COPY ["Infrastructure.Identity/Infrastructure.Identity.csproj", "Infrastructure.Identity/"]
 COPY ["Infrastructure.Shared/Infrastructure.Shared.csproj", "Infrastructure.Shared/"]
+COPY ["Infrastructure.Persistence/Infrastructure.Persistence.csproj", "Infrastructure.Persistence/"]
 
 # 2. Restaurar los paquetes de toda la solución
 RUN dotnet restore
