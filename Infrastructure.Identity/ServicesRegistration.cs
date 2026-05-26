@@ -57,6 +57,16 @@ namespace Infrastructure.Identity
            // Services
                services.AddScoped<IAccountService, AccountUserService>();
         }
+        public static async Task RunIdentitySeedAsync(this IServiceProvider service)
+        {
+            using var scope = service.CreateScope();
+            var servicesProvider = scope.ServiceProvider;
+
+            var userManager = servicesProvider.GetRequiredService<UserManager<AccountUser>>();
+            var roleManager = servicesProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            await DefaultRoles.SeedAsync(roleManager);
+        }
         //private methods
         private static void GeneralConfiguration(IServiceCollection services, IConfiguration config)
         {

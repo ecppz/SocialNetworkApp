@@ -3,36 +3,25 @@
     ViewData["Title"] = "Registro";
     Layout = "_LayoutAnonymous";
 }
-
 <link rel="stylesheet" href="~/styles/views/register.css" asp-append-version="true" />
 
 <div class="login-page">
-
     <div class="page-wrapper">
-
-        <!-- LEFT -->
         <section class="branding-side">
-
             <div class="brand-content">
                 <h1 class="brand-title">
                     Únete.<br />
                     Conecta.<br />
                     Crece.
                 </h1>
-
                 <p class="brand-tagline">
                     Comparte lo que piensas, descubre contenido nuevo y conecta sin límites.
                 </p>
-
             </div>
-
         </section>
 
-        <!-- RIGHT -->
         <section class="form-side">
-
             <div class="login-container">
-
                 <header class="form-header">
                     <h2>Crear cuenta</h2>
                     <p>Completa tus datos para registrarte</p>
@@ -48,105 +37,90 @@
                     </div>
                 }
 
-                <form asp-controller="Login"
-                      asp-action="Register"
-                      method="post"
-                      enctype="multipart/form-data">
-
-                    <!-- NAME -->
+                <form asp-controller="Login" asp-action="Register" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <input asp-for="Name" class="input-field" placeholder=" " />
                         <label class="input-label">Nombre</label>
                         <span asp-validation-for="Name" class="text-error"></span>
                     </div>
 
-                    <!-- LASTNAME -->
                     <div class="form-group">
                         <input asp-for="LastName" class="input-field" placeholder=" " />
                         <label class="input-label">Apellido</label>
                         <span asp-validation-for="LastName" class="text-error"></span>
                     </div>
 
-                    <!-- EMAIL -->
                     <div class="form-group">
                         <input asp-for="Email" class="input-field" placeholder=" " />
                         <label class="input-label">Correo electrónico</label>
                         <span asp-validation-for="Email" class="text-error"></span>
                     </div>
 
-                    <!-- USERNAME -->
                     <div class="form-group">
                         <input asp-for="UserName" class="input-field" placeholder=" " />
                         <label class="input-label">Usuario</label>
                         <span asp-validation-for="UserName" class="text-error"></span>
                     </div>
 
-                    <!-- PASSWORD -->
                     <div class="form-group">
                         <input asp-for="Password" type="password" class="input-field" placeholder=" " />
                         <label class="input-label">Contraseña</label>
                         <span asp-validation-for="Password" class="text-error"></span>
                     </div>
 
-                    <!-- CONFIRM PASSWORD -->
                     <div class="form-group">
                         <input asp-for="ConfirmPassword" type="password" class="input-field" placeholder=" " />
                         <label class="input-label">Confirmar contraseña</label>
                         <span asp-validation-for="ConfirmPassword" class="text-error"></span>
                     </div>
 
-                    <!-- PHONE -->
                     <div class="form-group">
                         <input asp-for="Phone" class="input-field" placeholder=" " />
                         <label class="input-label">Teléfono</label>
                         <span asp-validation-for="Phone" class="text-error"></span>
                     </div>
 
-                    <!-- IMAGE -->
                     <div class="form-section">
-
                         <label class="section-label">
                             Foto de perfil
                         </label>
-
                         <div class="file-upload-card">
-                            <input asp-for="ProfileImageFile" type="file" id="fileInput" />
-
+                            <input asp-for="ProfileImageFile" type="file" id="fileInput" accept="image/*" />
                             <label for="fileInput" class="file-upload-ui">
                                 <i class="ph-bold ph-cloud-arrow-up"></i>
-
                                 <div class="file-text">
                                     <strong>Sube tu imagen</strong>
-                                    <span>PNG, JPG hasta 5MB</span>
+                                    <span id="fileNamePath">PNG, JPG hasta 5MB</span>
                                 </div>
                             </label>
                         </div>
-
                         <span asp-validation-for="ProfileImageFile" class="text-error"></span>
-
                     </div>
 
-                    <!-- BUTTONS -->
                     <div class="button-stack">
-
                         <button type="submit" class="btn-primary">
                             Crear cuenta
                         </button>
-
                         <div class="auth-footer">
                             <a asp-controller="Login" asp-action="Index">
                                 Ya tengo cuenta
                             </a>
                         </div>
-
                     </div>
-
                 </form>
-
             </div>
-
         </section>
-
     </div>
-
 </div>
+
+@section Scripts {
+    <script>
+        document.getElementById('fileInput').onchange = evt => {
+            const fileInput = document.getElementById('fileInput');
+            const [file] = fileInput.files;
+            const pathText = document.getElementById('fileNamePath');
+
+            pathText.innerText = file ? file.name : "PNG, JPG hasta 5MB";
+        }
+    </script>
+}

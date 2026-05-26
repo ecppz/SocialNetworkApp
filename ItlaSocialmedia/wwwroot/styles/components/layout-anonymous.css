@@ -70,15 +70,11 @@ body {
 /* MOBILE */
 @media(max-width:1024px) {
 
-    .anonymous-header {
-        padding: 20px 24px;
+    .anonymous-header, .anonymous-footer {
+        display: none;
     }
 
     .brand-logo {
         color: #0058bc;
-    }
-
-    .anonymous-footer {
-        display: none;
     }
 }
