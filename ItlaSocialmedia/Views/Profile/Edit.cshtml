@@ -17,9 +17,8 @@
                     <form asp-controller="Profile" asp-action="Edit" method="POST" enctype="multipart/form-data">
                         <input type="hidden" asp-for="Id" />
 
-                        <!-- AVATAR PREVIEW -->
                         <div class="avatar-upload-wrapper">
-                            <img id="imgPreview" src="@(string.IsNullOrEmpty(ViewBag.CurrentUserProfile) ? "/images/default-avatar.png" : ViewBag.CurrentUserProfile)" class="avatar-preview" />
+                            <img id="imgPreview" src="@Url.Content("~/" + Model.ProfileImage)" class="avatar-preview" />
                         </div>
 
                         <div class="text-center mb-5">
@@ -99,7 +98,6 @@
 
 @section Scripts {
     <script>
-        // Script para previsualizar la foto en tiempo real
         document.getElementById('fileInput').onchange = evt => {
             const [file] = document.getElementById('fileInput').files;
             if (file) {

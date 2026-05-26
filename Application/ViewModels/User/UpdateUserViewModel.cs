@@ -26,5 +26,6 @@ namespace Application.ViewModels.User
 
         [DataType(DataType.Upload)]
         public IFormFile? ProfileImageFile { get; set; }
+        public string? ProfileImage { get; set; }
     }
 }

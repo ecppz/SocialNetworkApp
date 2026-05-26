@@ -19,17 +19,32 @@ namespace Infrastructure.Persistence
             }
             else
             {
-                var connectionString = config.GetConnectionString("DefaultConnection");
-                services.AddDbContext<SocialMediaContextDB>(
-                  (serviceProvider, opt) =>
-                  {
-                      opt.EnableSensitiveDataLogging();
-                      opt.UseSqlServer(connectionString,
-                      m => m.MigrationsAssembly(typeof(SocialMediaContextDB).Assembly.FullName));
-                  },
-                    contextLifetime: ServiceLifetime.Scoped,
-                    optionsLifetime: ServiceLifetime.Scoped
-                 );
+                var provider = config.GetValue<string>("DatabaseProvider");
+                var sqlConnectionstring = config.GetConnectionString("SqlConnection");
+                var postgreConnectionstring = config.GetConnectionString("PostgresConnection");
+
+                services.AddDbContext<SocialMediaContextDB>((serviceProvider, opt) =>
+                {
+                    opt.EnableSensitiveDataLogging();
+
+                    switch (provider)
+                    {
+                        case "Postgres":
+                            opt.UseNpgsql(postgreConnectionstring,
+                                m => m.MigrationsAssembly(typeof(SocialMediaContextDB).Assembly.FullName));
+                            break;
+
+                        case "SqlServer":
+                        default:
+                            opt.UseSqlServer(sqlConnectionstring,
+                                m => m.MigrationsAssembly(typeof(SocialMediaContextDB).Assembly.FullName));
+                            break;
+                    }
+                },
+                contextLifetime: ServiceLifetime.Scoped,
+                optionsLifetime: ServiceLifetime.Scoped
+                );
+            }
 
                 //Repositories IOC
                 services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
@@ -44,7 +59,6 @@ namespace Infrastructure.Persistence
                 services.AddScoped<IShipRepository, ShipRepository>();
                 services.AddScoped<IShipPositionRepository, ShipPositionRepository>();
                 services.AddScoped<IAttackRepository, AttackRepository>();
-            }
         }
     }
 }

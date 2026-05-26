@@ -81,17 +81,31 @@ namespace Infrastructure.Identity
             }
             else
             {
-                var connectionString = config.GetConnectionString("DefaultConnection");
-                services.AddDbContext<IdentityContext>(
+                var provider = config.GetValue<string>("DatabaseProvider");
+                var sqlConnectionstring = config.GetConnectionString("SqlConnection");
+                var postgreConnectionstring = config.GetConnectionString("PostgresConnection");
 
-                    (serviceProvider, opt) =>
+                services.AddDbContext<IdentityContext>(
+                (serviceProvider, opt) =>
+                {
+                    opt.EnableSensitiveDataLogging();
+
+                    switch (provider)
                     {
-                        opt.EnableSensitiveDataLogging();
-                        opt.UseSqlServer(connectionString,
-                        m => m.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName));
-                    },
-                    contextLifetime: ServiceLifetime.Scoped,
-                    optionsLifetime: ServiceLifetime.Scoped
+                        case "Postgres":
+                            opt.UseNpgsql(postgreConnectionstring,
+                                m => m.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName));
+                            break;
+
+                        case "SqlServer":
+                        default:
+                            opt.UseSqlServer(sqlConnectionstring,
+                                m => m.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName));
+                            break;
+                    }
+                },
+                contextLifetime: ServiceLifetime.Scoped,
+                optionsLifetime: ServiceLifetime.Scoped
                 );
             }
         }

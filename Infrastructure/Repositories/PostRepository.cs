@@ -16,7 +16,7 @@ namespace Infrastructure.Persistence.Repositories
             return await context.Posts
                 .Where(p => p.UserId == userId)
                 .Include(p => p.Comments)
-                .ThenInclude(c => c.Replies)
+                    .ThenInclude(c => c.Replies)
                 .Include(p => p.Reactions)
                 .OrderByDescending(p => p.CreatedAt)
                 .ToListAsync();

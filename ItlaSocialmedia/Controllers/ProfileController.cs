@@ -42,43 +42,53 @@ namespace ItlaSocialMedia.Controllers
             var vm = mapper.Map<UpdateUserViewModel>(dto);
             return View(vm);
         }
-
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateUserViewModel vm)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(vm);
-            }
-
             var user = await userManager.GetUserAsync(User);
             if (user == null)
             {
                 return RedirectToRoute(new { controller = "Home", action = "Index" });
             }
 
+            if (!ModelState.IsValid)
+            {
+                ViewBag.CurrentUserProfile = user.ProfileImage;
+                return View(vm);
+            }
+
             var dto = mapper.Map<SaveUserDto>(vm);
             dto.UserName = user.UserName ?? "";
             dto.Email = user.Email ?? "";
             dto.Password = vm.Password ?? "";
-            dto.ProfileImage = FileManager.Upload(vm.ProfileImageFile, user.Id, "Users");
+
+            if (vm.ProfileImageFile != null)
+            {
+                dto.ProfileImage = FileManager.Upload(vm.ProfileImageFile, user.Id, "Users");
+            }
+            else
+            {
+                dto.ProfileImage = user.ProfileImage;
+            }
 
             var result = await accountService.EditUser(dto, Request.Headers["Origin"].ToString());
 
             if (result.HasError)
             {
-                TempData["Message"] = "error al actualizar el usuario";
+                TempData["Message"] = "Error al actualizar el usuario";
                 TempData["MessageType"] = "danger";
-            }
-            else
-            {
-                TempData["Message"] = "usuario editado correctamente";
-                TempData["MessageType"] = "success";
 
+                ViewBag.CurrentUserProfile = user.ProfileImage;
+                ViewBag.HasError = true;
+                ViewBag.Errors = new List<string> { "No se pudo actualizar el perfil." };
+                return View(vm);
             }
+
+            TempData["Message"] = "Usuario editado correctamente";
+            TempData["MessageType"] = "success";
+
             return RedirectToRoute(new { controller = "Home", action = "Index" });
         }
-
     }
 
 }
